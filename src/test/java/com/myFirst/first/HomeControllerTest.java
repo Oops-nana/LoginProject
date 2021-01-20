@@ -5,8 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
 
-@RunWith(SpringJUnit4ClassRunner.class) 
-@ContextConfiguration(locations={"file:WebContent/WEB-INF/classes/applicationContext*.xml"})
+
 public class HomeControllerTest {
 	
 	@Test

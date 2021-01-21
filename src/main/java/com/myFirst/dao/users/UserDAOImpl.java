@@ -6,7 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
-import com.myFirst.dto.userDTO;
+import com.myFirst.dto.UserDTO;
 
 @Repository
 public class UserDAOImpl extends SqlSessionDaoSupport implements UserDAO{
@@ -18,12 +18,12 @@ public class UserDAOImpl extends SqlSessionDaoSupport implements UserDAO{
 	//사용자  ID에 해당하는 정보를 읽어옴
 	// 성공 userDTO 실패 null
 	@Override
-	public userDTO getUser(String id) {
+	public UserDTO getUser(String id) {
 		return getSqlSession().selectOne("getUser", id);
 	}
 
 	@Override
-	public List<userDTO> getUserList() {
+	public List<UserDTO> getUserList() {
 		return getSqlSession().selectList("getUserList");
 	}
 

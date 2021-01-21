@@ -1,6 +1,6 @@
 package com.myFirst.dto;
 
-public class userDTO {
+public class UserDTO {
 
 	private String userId;
 	private String Password;

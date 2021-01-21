@@ -1,18 +1,27 @@
 package com.myFirst.first;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myFirst.dao.users.UserDAO;
+import com.myFirst.dto.UserDTO;
+
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
+	
+	@Autowired UserDAO userDAO;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(HttpSession hsession) {
@@ -38,16 +47,35 @@ public class HomeController {
 		
 		ModelAndView mav = new ModelAndView();
 		
-		if(userId.equals("admin") == true && userPassword.equals("1234") == true) {
-			hsession.setAttribute("user_id", userId);
-			mav.addObject("user_id");
-			mav.setViewName("home");
-		}
-		else {
-			hsession.removeAttribute("user_id");
-			mav.setViewName("login_alert");
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("userPassword", userPassword);
+		
+		String result = null;
+		int check = 0;
+		try {
+			result = userDAO.login(map);
+		} catch (Exception e) {
+			hsession.removeAttribute("session_id");
+			hsession.removeAttribute("session_name");
+			hsession.removeAttribute("session_grade");
+			hsession.removeAttribute("session_screen");			
+			check = 0;
 		}
 		 
+		if(result!=null) {
+			if(result.equals("OK") == true) {
+				UserDTO user = userDAO.getUser(userId);
+				hsession.setAttribute("session_id", user.getUserId());
+				check = 1;
+			}
+		}
+		else {
+			hsession.removeAttribute("session_id");
+		}
+		mav.addObject("check",check);
+		mav.setViewName("account/loginProc");
+		
 		return mav;
 		
 	}

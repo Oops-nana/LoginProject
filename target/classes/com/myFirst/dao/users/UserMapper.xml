@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+      
+<mapper namespace="User">
+	<select id="login" parameterType="map" resultType="String">
+		SELECT IF(userPassword=PASSWORD('${userPassword}'), 'OK', 'FAIL') FROM user WHERE userId='${userId}'
+	</select>
+	
+	<select id="getUser" parameterType="String" resultType="UserDTO">
+	    SELECT * FROM user WHERE userId = #{userId}
+	</select>
+	
+	<select id="getUserList" resultType="UserDTO">
+		SELECT * FROM user ORDER BY grade ASC
+	</select>
+	
+	<delete id="removeUser" parameterType="String">
+		DELETE FROM user WHERE userId = #{id}
+	</delete>
+	
+	<insert id="addUser" parameterType="map">
+		INSERT INTO user(userId, userPassword, userName, grade, phone) 
+		VALUES ('${userId}',PASSWORD('${userPassword}'), '${userName}', ${grade}, '${phone}')
+	</insert>
+	
+	<update id="updateUserByAdmin" parameterType="map">
+		UPDATE user SET userId='${userId}', userName='${userName}', grade=${grade}, phone='${phone}' 
+		WHERE userId='${source_id}'
+	</update>
+	
+	<update id="updateUser" parameterType="map">
+		UPDATE user SET userId='${userId}', userName='${userName}', phone='${phone}'
+		WHERE userId='${source_id}'
+	</update>
+	
+	<update id="updateUserPassword" parameterType="map">
+		UPDATE user SET userPassword=PASSWORD('${userPassword}')
+		WHERE userId='${userId}'
+	</update>
+</mapper>    

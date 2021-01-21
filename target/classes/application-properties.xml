@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<properties>
+	<comment>application-properties</comment>
+	<!-- DataBase -->
+	<entry key="database.driverClassname"></entry>
+	<entry key="database.url"></entry>
+	<entry key="database.username">admin</entry>
+	<entry key="database.password">admin</entry>
+</properties>
+

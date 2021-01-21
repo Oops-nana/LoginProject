@@ -1,9 +1,8 @@
 create table users
 ( 
-userid varchar(30) not null primary key,
-username varchar(100) not null,
-gender varchar(10),
-city varchar(30)
+userId varchar(30) not null primary key,
+password varchar(100) not null,
+username varchar(100)
 );
-insert into users values ('wonjae', 'wonjaeG', 'male', 'Boseong');
+insert into users values ('admin', 'admin','wonjae');
 commit;

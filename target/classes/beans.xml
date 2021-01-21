@@ -25,7 +25,7 @@ location = "classpath:config/value.properties"/>
 		<property name="password" value="${db.password}"></property>
 </bean>
 
-<bean id="userDao" class="com.myFirst.dao.users.UserDao" 
+<bean id="userDao" class="com.myFirst.dao.users.UserDAO" 
 />
 
 </beans>

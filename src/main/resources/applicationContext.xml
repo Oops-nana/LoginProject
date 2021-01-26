@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-3.0.xsd
-       
+       http://mybatis.org/schema/mybatis-spring
+     http://mybatis.org/schema/mybatis-spring.xsd
        http://www.springframework.org/schema/task 
-       http://www.springframework.org/schema/task/spring-task-3.1.xsd"
-      
-       >
-       <!--  -->
-	<context:property-placeholder location="classpath*:application-properties.xml"/>
+       http://www.springframework.org/schema/task/spring-task-3.1.xsd">
+	<!-- -->
 	<!-- property placeholder를 통해 읽어들임 -->
 	<!-- dependency injection의 형태로 볼 수 있음 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-		p:driverClassName="${database.driverClassName}"
-		p:url="${database.url}"
-		p:username="${database.username}"
-		p:password="${database.password}" 
+	<context:property-placeholder location="classpath*:application-properties.xml" />
 		
+	<bean id="dataSource"	class="org.apache.commons.dbcp.BasicDataSource"
+		p:driverClassName="${db.driverClassName}"
+		p:url="${db.url}" 
+		p:username="${db.username}"
+		p:password="${db.password}" 
 	/>
-	
+		
+	<!-- Mybatis연결방법(1.클래스이용(전통),2.인터페이스이용) -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-	     <property name="configLocation" value="classpath*:SqlMapConfig.xml" /> 
-	     <property name="dataSource" ref="dataSource" />      
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"  value="classpath*:SqlMapConfig.xml" />
 	</bean>
-		 
+	
+	<!-- 4.SqlSessionTemplate (sqlSession객체를 더 쉽게 얻어오기 위해서 설정) -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+	<bean id="userDao" class="com.myFirst.dao.users.UserDAO"></bean>
+	<bean id="controller" class="com.myFirst.first.HomeController">
+		<constructor-arg ref="userDao"></constructor-arg>
+	</bean>
+
 </beans>

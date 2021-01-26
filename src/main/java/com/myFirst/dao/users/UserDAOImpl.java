@@ -5,12 +5,14 @@ import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.myFirst.dto.UserDTO;
 
-@Repository
-public class UserDAOImpl extends SqlSessionDaoSupport implements UserDAO{
 
+@Service
+public class UserDAOImpl extends SqlSessionDaoSupport implements UserDAO{
+	
 	@Override
 	public String login(Map<String, Object> map) {
 		return getSqlSession().selectOne("login",map);

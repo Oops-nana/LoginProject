@@ -6,7 +6,9 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,10 +21,19 @@ import com.myFirst.dto.UserDTO;
  * Handles requests for the application home page.
  */
 @Controller
+@Component
 public class HomeController {
 	
-	@Autowired UserDAO userDAO;
+	private UserDAO userDAO;
 	
+	public HomeController() {
+		// TODO Auto-generated constructor stub
+	}	
+	
+	public HomeController(UserDAO userDao) {
+		this.userDAO = userDao;
+	}
+		
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(HttpSession hsession) {
 		
@@ -39,8 +50,8 @@ public class HomeController {
 		return mav;
 	}
 	
-	@ RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	public ModelAndView login(
+	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	public ModelAndView loginProc(
 			@RequestParam(value = "user_id", defaultValue = "")String userId,
 			@RequestParam(value = "user_password", defaultValue = "")String userPassword,
 			HttpSession hsession){
@@ -74,7 +85,7 @@ public class HomeController {
 			hsession.removeAttribute("session_id");
 		}
 		mav.addObject("check",check);
-		mav.setViewName("account/loginProc");
+		mav.setViewName("loginProc");
 		
 		return mav;
 		
